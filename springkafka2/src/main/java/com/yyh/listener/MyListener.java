@@ -5,26 +5,62 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.PartitionOffset;
 import org.springframework.kafka.annotation.TopicPartition;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryPoolMXBean;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MyListener {
     @KafkaListener(id = "myContainer1",//id是消费者监听容器
             topicPartitions =//配置topic和分区：监听两个topic，分别为topic1、topic2，topic1只接收分区0，3的消息，
                     //topic2接收分区0和分区1的消息，但是分区1的消费者初始位置为5
-            { @TopicPartition(topic = "topic1", partitions = { "0", "3" }),
-                    @TopicPartition(topic = "topic2", partitions = "0",
-                            partitionOffsets = @PartitionOffset(partition = "1", initialOffset = "4"))
-            })
+                    {@TopicPartition(topic = "topic1", partitions = {"0", "3"}),
+                            @TopicPartition(topic = "topic2", partitions = "0",
+                                    partitionOffsets = @PartitionOffset(partition = "1", initialOffset = "4"))
+                    })
     public void listen(ConsumerRecord<?, ?> record) {
         System.out.println("topic" + record.topic());
         System.out.println("key:" + record.key());
-        System.out.println("value:"+record.value());
+        System.out.println("value:" + record.value());
     }
 
-    @KafkaListener(id = "myContainer2",topics = {"foo","bar"})
-    public void listen2(ConsumerRecord<?, ?> record){
+    @KafkaListener(id = "myContainer2", topics = {"foo", "bar"})
+    public void listen2(ConsumerRecord<?, ?> record) {
         System.out.println("topic：" + record.topic());
         System.out.println("key:" + record.key());
-        System.out.println("value:"+record.value());
+        System.out.println("value:" + record.value());
+    }
+
+//    public static void main(String[] args) {
+//        byte[] array = new byte[8 * 1024 * 1024];
+//        //byte[] array1 = new byte[1*1024*1024];
+//
+//        for (MemoryPoolMXBean memoryPoolMXBean : ManagementFactory.getMemoryPoolMXBeans()) {
+//            System.out.println(memoryPoolMXBean.getName()
+//                    + "   total:" + memoryPoolMXBean.getUsage().getCommitted()
+//                    + "   used:" + memoryPoolMXBean.getUsage().getUsed());
+//        }
+//
+//        try {
+//            Thread.sleep(30000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public static void main(String[] args) {
+        String a = "123";
+        try {
+            Thread.sleep(40000);
+        }catch (InterruptedException e){
+            System.out.println(e.getCause());
+        }
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
+            list.add(i+"00");
+            for (int j=0; j<Integer.MAX_VALUE; j++){};
+        }
     }
 
 }

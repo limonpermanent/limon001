@@ -16,7 +16,7 @@ public class TopicConfig {
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092,localhost:9093");
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka01-test.lianjia.com:9092,kafka02-test.lianjia.com:9092,kafka03-test.lianjia.com:9092");
         return new KafkaAdmin(configs);
     }
 

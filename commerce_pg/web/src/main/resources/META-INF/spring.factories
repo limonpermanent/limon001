@@ -1,0 +1,6 @@
+# Initializers
+org.springframework.context.ApplicationContextInitializer=\
+com.limon.web.contextInitializer.LimonContextInitializer
+
+org.springframework.boot.SpringApplicationRunListener=\
+com.limon.web.runListener.LimonAppRunListener
